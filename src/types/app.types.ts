@@ -1,6 +1,6 @@
 export type user_role = 'Submiter' | 'Reviewer'
 
-export interface Users {
+export interface User {
     id: number,
     name: string,
     email: string,
@@ -8,10 +8,10 @@ export interface Users {
     role: user_role 
 }
 
-export type new_user = Omit<Users, 'id'>
+export type new_user = Omit<User, 'id'>
+export type update_user = Pick<User, 'name'| 'email' | 'password' |'role'>
 
 export type submission_status = 'Pending' | 'Rejected' | 'Approved' | 'in_review'
-
 export interface projects {
     id: number,
     name: string,
@@ -19,6 +19,6 @@ export interface projects {
     userId: number[],
     project_status: submission_status,
 
-    
+
 
 }
