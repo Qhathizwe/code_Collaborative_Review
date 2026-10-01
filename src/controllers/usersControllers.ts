@@ -7,6 +7,7 @@ export const addUser = async (req: Request, res: Response) => {
         const newUser = await usersServices.createUser(req.body)
         res.status(201).json(newUser)
     } catch (error) {
+        console.error(error)
         res.status(500).json({ message: "Error Creating a User" });
     };
 }
