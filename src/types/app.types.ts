@@ -1,5 +1,7 @@
-//Users types
-export type user_role = 'Submiter' | 'Reviewer'
+// ==========================================
+// Users Types
+// ==========================================
+export type user_role = 'Submiter' | 'Reviewer';
 
 export interface User {
     id: number,
@@ -8,11 +10,13 @@ export interface User {
     password: string,
     role: user_role 
 }
-export type new_user = Omit<User, 'id'>
-// // export type update_user = Pick<User, 'name'| 'email' | 'password' |'role'>
+export type new_user = Omit<User, 'id'>;
 
-//Projects types
-export type submission_status = 'Pending' | 'Rejected' | 'Approved' | 'in_review'
+
+// ==========================================
+// Projects Types
+// ==========================================
+export type submission_status = 'Pending' | 'Rejected' | 'Approved' | 'in_review';
 
 export interface projects {
     id: number,
@@ -22,4 +26,28 @@ export interface projects {
     project_status: submission_status,
     created_at: Date
 }
-export type new_project = Omit<projects, 'id'>
+export type new_project = Omit<projects, 'id'>;
+
+
+// ==========================================
+// Project Members Types (Sprint 3)
+// ==========================================
+export interface project_member {
+    project_id: number;
+    user_id: number;
+}
+
+
+// ==========================================
+// Code Submissions Types (Sprint 4)
+// ==========================================
+export interface submission {
+    id: number;
+    project_id: number;
+    userid: number;
+    code_url: string;
+    remarks: string;
+    status: submission_status; // Reuses your 'Pending' | 'Rejected' | 'Approved' | 'in_review' enum
+    created_at: Date;
+}
+export type new_submission = Omit<submission, 'id' | 'status' | 'created_at'>;
