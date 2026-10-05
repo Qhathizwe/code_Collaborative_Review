@@ -20,7 +20,7 @@ export const getCommentsBySubmissionId = async (req: Request, res: Response) => 
     }
 };
 
-export const updateComment = async (req: Request, res: Response) => {
+export const updateCommentById = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id as string);
         const { content } = req.body;
@@ -34,7 +34,7 @@ export const updateComment = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteComment = async (req: Request, res: Response) => {
+export const deleteCommentById = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id as string);
         const deletedComment = await commentService.deleteCommentById(id);
