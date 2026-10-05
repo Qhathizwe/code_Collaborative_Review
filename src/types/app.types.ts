@@ -30,7 +30,7 @@ export type new_project = Omit<projects, 'id'>;
 
 
 // ==========================================
-// Project Members Types (Sprint 3)
+// Project Members Types 
 // ==========================================
 export interface project_member {
     project_id: number;
@@ -39,7 +39,7 @@ export interface project_member {
 
 
 // ==========================================
-// Code Submissions Types (Sprint 4)
+// Code Submissions Types 
 // ==========================================
 export interface submission {
     id: number;

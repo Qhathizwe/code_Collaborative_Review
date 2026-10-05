@@ -1,5 +1,6 @@
+import { Pool } from "pg";
 import { query } from "../config/database";
-import { User, new_user } from '../types/app.types'
+import { User, user_role } from '../types/app.types'
 import bcrypt from "bcryptjs";
 
 export const createUsersTable = async (): Promise<void> => {
@@ -19,8 +20,17 @@ export const createUsersTable = async (): Promise<void> => {
     }
 };
 
-export const createUser = async (userData: new_user): Promise<User> => {
-    const { name, email, password, role } = userData;
+export const findUserByEmail = async (email: string ) => {
+    const { rows } = await query(
+        "SELECT * FROM users WHERE email = $1", [email]
+    )
+    return rows[0] || null
+};
+
+
+export const createUser = async (name: string, email: string, password: string, role: user_role): 
+Promise<User> => {
+
     const encrypt = await bcrypt.genSalt(10)
     const password_hash = await bcrypt.hash(password, encrypt)
     
@@ -31,6 +41,7 @@ export const createUser = async (userData: new_user): Promise<User> => {
     return rows[0];
 };
 
+// CRUD for Users
 export const findAllUsers = async (): Promise<User[]> => {
     const { rows } = await query(
         "SELECT * FROM Users ORDER BY id ASC",
