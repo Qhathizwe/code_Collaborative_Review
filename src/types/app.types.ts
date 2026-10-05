@@ -55,10 +55,10 @@ export type new_submission = Omit<submission, 'id' | 'status' | 'created_at'>;
 // Comments Types
 // ==========================================
 
-export interface comments {
+export interface comment {
     id: number;
     submissionId: number;
-    in_line: string;
-    general: string;
+    in_line?: string;
+    general?: string;
 };
-export type new_comment = Omit<comments, 'id' >;
+export type new_comment = Omit<comment, 'id' >;
