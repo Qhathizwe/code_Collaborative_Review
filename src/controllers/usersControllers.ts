@@ -1,16 +1,63 @@
 import { Response, Request } from "express";
 import * as usersServices from '../services/usersServices'
 import { Await } from "react-router-dom";
+import bcrypt from "bcryptjs";
+import   jwt  from "jsonwebtoken";
 
-export const addUser = async (req: Request, res: Response) => {
+export const registerUser = async (req: Request, res: Response) => {
+    const {name, email, password, role} = req.body
+    if (!name || !email || !password ||!role){
+        return res.status(400).json({message: `${name}, ${email}, ${password}, ${role} Required!`})
+    }
     try {
-        const newUser = await usersServices.createUser(req.body)
-        res.status(201).json(newUser)
+        const existingUser = await usersServices.findUserByEmail(req.body)
+        if (existingUser){
+            return res.status(409).json({message: "Email is already in use"})
+        }
+        const user = await usersServices.createUser(name, email, password, role)
+
+        res.status(201).json({message: "user created successfully", userId: user.id})
+
     } catch (error) {
         console.error(error)
         res.status(500).json({ message: "Error Creating a User" });
     };
-}
+};
+
+export const loginUser = async(req: Request, res: Response) =>{
+    const {email, password} = req.body;
+    if (!email || !password){
+        return res.status(400).json({message: "Email and Password is required"})
+    }
+      try {
+        // 1. Added 'await' here so 'user' becomes the actual object, not a Promise
+        const user = await usersServices.findUserByEmail(email);
+
+        // 2. Fix: Check if the user was actually found in the database
+        if (!user) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        // 3. This will now work because 'user' is resolved
+        const isMatch = await bcrypt.compare(password, user.password_hash);
+        
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+        const payload = {userId: user.id, email: user.email, password: user.password}
+        const token =  jwt.sign(payload, process.env.JWT_SECRET!, {
+            expiresIn: "1h"
+        })
+       
+        return res.status(200).json({ message: "Login successful", token });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Error logging in..." });
+    }
+};
+
+
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
