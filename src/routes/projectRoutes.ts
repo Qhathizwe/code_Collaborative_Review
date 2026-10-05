@@ -1,13 +1,25 @@
-import {
-    addProject,
-    getAllProjects
-}
-from '../controllers/projectControllers'
-import { Router } from 'express'
+import { Router } from "express";
+import { protect } from "../middleware/userMiddleware";
+import { 
+    addProject, 
+    getAllProjects, 
+    addProjectMember, 
+    removeProjectMember 
+} from "../controllers/projectControllers";
 
-const router = Router()
+const router = Router();
 
-router.post("/projects", addProject)
-router.get("/projects", getAllProjects)
+// Apply auth protection globally across all endpoints
+router.use(protect as any);
 
-export default router
+// Create and List Projects
+router.post("/", addProject);
+router.get("/", getAllProjects);
+
+//  Assign user to project (/api/projects/:id/members)
+router.post("/:id/members", addProjectMember);
+
+// Remove user from project (/api/projects/:id/members/:userId)
+router.delete("/:id/members/:userId", removeProjectMember);
+
+export default router;
