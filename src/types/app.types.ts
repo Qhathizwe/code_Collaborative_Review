@@ -47,7 +47,18 @@ export interface submission {
     userid: number;
     code_url: string;
     remarks: string;
-    status: submission_status; // Reuses your 'Pending' | 'Rejected' | 'Approved' | 'in_review' enum
+    status: submission_status; 
     created_at: Date;
 }
 export type new_submission = Omit<submission, 'id' | 'status' | 'created_at'>;
+// ==========================================
+// Comments Types
+// ==========================================
+
+export interface comments {
+    id: number;
+    submissionId: number;
+    in_line: string;
+    general: string;
+};
+export type new_comment = Omit<comments, 'id' >;
