@@ -1,16 +1,18 @@
 import Router from 'express'
 
 import {
-    addUser,
+    registerUser,
+    loginUser,
     getAllUsers,
     getUserById,
     updateUserById,
-    deleteById
+    deleteById,
 } from '../controllers/usersControllers'
 
 const router = Router()
 
-router.post('/users', addUser)
+router.post('/auth/register', registerUser)
+router.post("/auth/login", loginUser)
 
 router.get("/users", getAllUsers )
 router.get("/users/:id", getUserById)
