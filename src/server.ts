@@ -6,12 +6,15 @@ import { testDBConnection } from './config/database'
 import usersRoutes from './routes/usersRoutes'
 import projectRoutes from './routes/projectRoutes'
 import submissionRoutes from './routes/submissionRoutes'
+import commentsRoutes from './routes/commentsRoutes'
 
 import { createUsersTable } from './services/usersServices'
 import { createProjectTable } from './services/projectServices'
 import { createSubmissionsTable } from './services/submissionServices'
+import { createCommentsTable} from './services/commentsServices'
+
 import { Await } from 'react-router-dom'
-import { createCommentsTable } from './services/commentsServices'
+
 dotenv.config()
 
 const app = express()
@@ -35,7 +38,8 @@ const startServer = async () => {
 
     app.use('/api', usersRoutes)
     app.use('/api', projectRoutes)
-    app.use('api', submissionRoutes)
+    app.use('/api', submissionRoutes)
+    app.use('/api', commentsRoutes)
 
 
     app.listen(PORT, () => {
