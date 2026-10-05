@@ -6,7 +6,7 @@ export const createCommentsTable = async (): Promise<void> => {
         await query(
             `CREATE TABLE IF NOT EXISTS comments (
             id SERIAL PRIMARY KEY,
-            submissionid INT REFERENCES submission(id) ON DELETE CASCADE,
+            submissionid INT REFERENCES submissions(id) ON DELETE CASCADE,
             in_line VARCHAR(200),
             general VARCHAR(300)
             )`
