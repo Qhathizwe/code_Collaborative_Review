@@ -5,9 +5,13 @@ import { testDBConnection } from './config/database'
 
 import usersRoutes from './routes/usersRoutes'
 import projectRoutes from './routes/projectRoutes'
+import submissionRoutes from './routes/submissionRoutes'
 
 import { createUsersTable } from './services/usersServices'
 import { createProjectTable } from './services/projectServices'
+import { createSubmissionsTable } from './services/submissionServices'
+import { Await } from 'react-router-dom'
+import { createCommentsTable } from './services/commentsServices'
 dotenv.config()
 
 const app = express()
@@ -20,15 +24,19 @@ const startServer = async () => {
 
     const creatingTables = async () => {
 
-            await createUsersTable()
-            await createProjectTable()
+            await createUsersTable();
+            await createProjectTable();
+            await createSubmissionsTable();
+            await createCommentsTable();
     }
-    
+
     creatingTables()
 
 
     app.use('/api', usersRoutes)
     app.use('/api', projectRoutes)
+    app.use('api', submissionRoutes)
+
 
     app.listen(PORT, () => {
         console.log(`Server is running on http://localhost:${PORT}`)
