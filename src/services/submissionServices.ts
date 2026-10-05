@@ -7,8 +7,8 @@ export const createSubmissionsTable = async (): Promise<void> => {
             id SERIAL PRIMARY KEY,
             project_id INT REFERENCES projects(id) ON DELETE CASCADE,
             userid INT REFERENCES Users(id) ON DELETE CASCADE,
-            code_url TEXT NOT NULL,
-            remarks TEXT,
+            code_url VARCHAR(500) NOT NULL,
+            reviews VARCHAR(200) ,
             status submission_status DEFAULT 'Pending',
             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
           )`
